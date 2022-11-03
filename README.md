@@ -1,6 +1,6 @@
 # flutter_bootcamp
 
-A new Flutter project.
+A new Flutter project following this tutorial [BOOTCAMP 2023 - FLUTTER](https://www.youtube.com/playlist?list=PL5RTI3w_BqqDQDiLD45AJ_YYooA4Xm_k6)
 
 ## Getting Started
 
