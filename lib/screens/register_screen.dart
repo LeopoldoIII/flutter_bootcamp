@@ -38,6 +38,7 @@ class RegisterScreen extends StatelessWidget {
                           hintText: 'Correo electronico'),
                     ),
                     TextFormField(
+                      obscureText: true,
                       decoration: const InputDecoration(
                           icon: Icon(Icons.password_outlined),
                           hintText: 'Contraseña'),

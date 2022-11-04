@@ -38,6 +38,7 @@ class LoginScreen extends StatelessWidget {
                           hintText: 'Correo electronico'),
                     ),
                     TextFormField(
+                      obscureText: true,
                       decoration: const InputDecoration(
                           icon: Icon(Icons.password_outlined),
                           hintText: 'Contraseña'),
@@ -49,7 +50,14 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
           ),
-          TextButton(onPressed: null, child: Text('Registrar nueva cuenta')),
+          TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, 'register');
+              },
+              child: Text(
+                'Registrar nueva cuenta',
+                style: TextStyle(color: Colors.white),
+              )),
           SizedBox(height: 35),
         ]),
       ),
