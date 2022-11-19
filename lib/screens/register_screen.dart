@@ -11,6 +11,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   var formKey = GlobalKey<FormState>();
+  Map<String, String> formData = {'email': '', 'password': ''};
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 padding: const EdgeInsets.all(20),
                 width: double.infinity,
                 child: Form(
-                  key:formKey,
+                  key: formKey,
                   child: Column(
                     children: [
                       const SizedBox(height: 25),
@@ -46,24 +47,59 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 18)),
                       TextFormField(
+                        onChanged: (value) {
+                          formData['email'] = value;
+                        },
+                        validator: (value) {
+                          if (value!.length < 5) {
+                            return "Invalid";
+                          }
+                          return null;
+                        },
                         decoration: const InputDecoration(
                             icon: Icon(Icons.email_outlined),
                             hintText: 'Correo electronico'),
                       ),
                       TextFormField(
+                        onChanged: (value) {
+                          formData['password'] = value;
+                        },
+                        validator: (value) {
+                          if (value!.length < 3) {
+                            return "Contraseña no valida";
+                          }
+                          return null;
+                        },
                         obscureText: true,
                         decoration: const InputDecoration(
                             icon: Icon(Icons.password_outlined),
                             hintText: 'Contraseña'),
                       ),
                       ElevatedButton(
-                          onPressed: () {
-                            if(formKey.currentState!.validate()){
-                              print("OKAY");
-                              } else {
-                                print("NOOK");
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              bool respuesta =
+                                  await registerProvider.registerUser(formData);
+                              if (respuesta) {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const AlertDialog(
+                                          title: Text(
+                                              'Usuario registrado con exito.'));
+                                    });
                               }
-                          }, child: const Text('Registrar'))
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const AlertDialog(
+                                        title: Text(
+                                            'No se pudo registrar el usuario.'));
+                                  });
+                            }
+                          },
+                          child: const Text('Registrar'))
                     ],
                   ),
                 ),
