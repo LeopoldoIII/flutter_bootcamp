@@ -83,8 +83,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 showDialog(
                                     context: context,
                                     builder: (context) {
-                                      return const AlertDialog(
-                                          title: Text('Usuario correcto'));
+                                      return AlertDialog(actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              Navigator.pushReplacementNamed(
+                                                  context, 'home');
+                                            },
+                                            child: Text('OK'))
+                                      ], title: Text('Usuario correcto'));
                                     });
                               }
                             } else {
