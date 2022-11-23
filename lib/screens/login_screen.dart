@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bootcamp/providers/providers.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/widgets.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -39,12 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     children: [
                       const SizedBox(height: 25),
-                      const Text('Iniciar Sesion',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.indigo,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18)),
+                      const AppTitle('Inicio de Sesion'),
                       TextFormField(
                         onChanged: (value) {
                           formData['email'] = value;
