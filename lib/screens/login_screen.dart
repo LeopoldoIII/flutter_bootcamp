@@ -42,19 +42,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       const SizedBox(height: 25),
                       const AppTitle('Inicio de Sesion'),
-                      TextFormField(
-                        onChanged: (value) {
-                          formData['email'] = value;
-                        },
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      AppFormFiled(
+                        'email',
+                        'Correo electronico',
+                        formData: formData,
                         validator: (value) {
-                          if (value!.length < 5) {
-                            return "Invalid";
+                          if (value!.length < 3) {
+                            return "Correo electronico no valida";
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.email_outlined),
-                            hintText: 'Correo electronico'),
                       ),
                       TextFormField(
                         onChanged: (value) {
