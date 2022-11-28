@@ -12,7 +12,7 @@ class AppTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(title,
         textAlign: TextAlign.center,
-        style: const TextStyle(
+        style: const TextStyle( 
             color: Colors.indigo, fontWeight: FontWeight.bold, fontSize: 18));
   }
 }

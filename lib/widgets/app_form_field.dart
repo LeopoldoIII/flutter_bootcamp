@@ -4,6 +4,7 @@ class AppFormFiled extends StatelessWidget {
   final String name;
   final String label;
   final IconData? icon;
+  final bool obscureText;
   final String? Function(String?)? validator;
 
   const AppFormFiled(
@@ -12,6 +13,7 @@ class AppFormFiled extends StatelessWidget {
     Key? key,
     this.icon,
     this.validator,
+    this.obscureText = false,
     required this.formData,
   }) : super(key: key);
 
@@ -21,8 +23,9 @@ class AppFormFiled extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: (value) {
-        formData['password'] = value;
+        formData[name] = value;
       },
+      obscureText: obscureText,
       validator: validator,
       decoration: InputDecoration(icon: Icon(icon), hintText: label),
     );

@@ -56,20 +56,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      TextFormField(
-                        onChanged: (value) {
-                          formData['password'] = value;
-                        },
+                      AppFormFiled(
+                        'password',
+                        'Contraseña',
+                        obscureText: true,
+                        formData: formData,
                         validator: (value) {
                           if (value!.length < 3) {
                             return "Contraseña no valida";
                           }
                           return null;
                         },
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.password_outlined),
-                            hintText: 'Contraseña'),
                       ),
                       ElevatedButton(
                           onPressed: () async {
