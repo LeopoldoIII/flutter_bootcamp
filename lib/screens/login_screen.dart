@@ -14,10 +14,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   var formKey = GlobalKey<FormState>();
   Map<String, String> formData = {'email': '', 'password': ''};
+  LoginProvider loginProvider = LoginProvider();
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<LoginProvider>(context);
+    loginProvider = Provider.of<LoginProvider>(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -69,35 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                       ElevatedButton(
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              bool respuesta =
-                                  await loginProvider.loginUser(formData);
-                              if (respuesta) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(actions: [
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                              Navigator.pushReplacementNamed(
-                                                  context, 'home');
-                                            },
-                                            child: Text('OK'))
-                                      ], title: Text('Usuario correcto'));
-                                    });
-                              }
-                            } else {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return const AlertDialog(
-                                        title: Text('Usuario incorrecto'));
-                                  });
-                            }
-                          },
-                          child: const Text('Ingresar'))
+                          onPressed: formLogin, child: const Text('Ingresar'))
                     ],
                   ),
                 ),
@@ -116,5 +89,31 @@ class _LoginScreenState extends State<LoginScreen> {
         ]),
       ),
     );
+  }
+
+  formLogin() async {
+    if (formKey.currentState!.validate()) {
+      bool respuesta = await loginProvider.loginUser(formData);
+      if (respuesta) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushReplacementNamed(context, 'home');
+                    },
+                    child: const Text('OK'))
+              ], title: const Text('Usuario correcto'));
+            });
+      }
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const AlertDialog(title: Text('Usuario incorrecto'));
+          });
+    }
   }
 }
