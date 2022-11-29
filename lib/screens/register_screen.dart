@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bootcamp/providers/providers.dart';
 import 'package:provider/provider.dart';
+import '../widgets/widgets.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -12,10 +13,11 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   var formKey = GlobalKey<FormState>();
   Map<String, String> formData = {'email': '', 'password': ''};
+  RegisterProvider registerProvider = RegisterProvider();
 
   @override
   Widget build(BuildContext context) {
-    final registerProvider = Provider.of<RegisterProvider>(context);
+    registerProvider = Provider.of<RegisterProvider>(context);
 
     return Scaffold(
       body: Container(
@@ -40,65 +42,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Column(
                     children: [
                       const SizedBox(height: 25),
-                      const Text('Registro de Usuario',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.indigo,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18)),
-                      TextFormField(
-                        onChanged: (value) {
-                          formData['email'] = value;
-                        },
+                      const AppTitle('Registro de Usuario'),
+                      AppFormFiled(
+                        'email',
+                        'Correo electronico',
+                        formData: formData,
                         validator: (value) {
-                          if (value!.length < 5) {
-                            return "Invalid";
+                          if (value!.length < 3) {
+                            return "Correo electronico no valida";
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.email_outlined),
-                            hintText: 'Correo electronico'),
                       ),
-                      TextFormField(
-                        onChanged: (value) {
-                          formData['password'] = value;
-                        },
+                      AppFormFiled(
+                        'password',
+                        'Contraseña',
+                        obscureText: true,
+                        formData: formData,
                         validator: (value) {
                           if (value!.length < 3) {
                             return "Contraseña no valida";
                           }
                           return null;
                         },
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.password_outlined),
-                            hintText: 'Contraseña'),
                       ),
                       ElevatedButton(
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              bool respuesta =
-                                  await registerProvider.registerUser(formData);
-                              if (respuesta) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return const AlertDialog(
-                                          title: Text(
-                                              'Usuario registrado con exito.'));
-                                    });
-                              }
-                            } else {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return const AlertDialog(
-                                        title: Text(
-                                            'No se pudo registrar el usuario.'));
-                                  });
-                            }
-                          },
+                          onPressed: formRegister,
                           child: const Text('Registrar'))
                     ],
                   ),
@@ -110,5 +79,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ]),
       ),
     );
+  }
+
+  formRegister() async {
+    if (formKey.currentState!.validate()) {
+      bool respuesta = await registerProvider.registerUser(formData);
+      if (respuesta) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return const AlertDialog(
+                  title: Text('Usuario registrado con exito.'));
+            });
+      }
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const AlertDialog(
+                title: Text('No se pudo registrar el usuario.'));
+          });
+    }
   }
 }
