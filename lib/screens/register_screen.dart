@@ -85,20 +85,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (formKey.currentState!.validate()) {
       bool respuesta = await registerProvider.registerUser(formData);
       if (respuesta) {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return const AlertDialog(
-                  title: Text('Usuario registrado con exito.'));
-            });
+        AppDialogs.showDialog1(context, 'Usuario registrado con exito.');
+      } else {
+        AppDialogs.showDialog1(context, 'No se pudo registrar el usuario.');
       }
     } else {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return const AlertDialog(
-                title: Text('No se pudo registrar el usuario.'));
-          });
+      AppDialogs.showDialog1(context, 'No se pudo registrar el usuario.');
     }
   }
 }

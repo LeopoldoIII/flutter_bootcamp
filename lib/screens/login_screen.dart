@@ -95,25 +95,19 @@ class _LoginScreenState extends State<LoginScreen> {
     if (formKey.currentState!.validate()) {
       bool respuesta = await loginProvider.loginUser(formData);
       if (respuesta) {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.pushReplacementNamed(context, 'home');
-                    },
-                    child: const Text('OK'))
-              ], title: const Text('Usuario correcto'));
-            });
+        AppDialogs.showDialog2(context, 'Usuario Autenticado!', [
+          TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, 'home');
+              },
+              child: const Text('OK'))
+        ]);
+      } else {
+        AppDialogs.showDialog1(context, 'No se pudo iniciar sesion.');
       }
     } else {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return const AlertDialog(title: Text('Usuario incorrecto'));
-          });
+      AppDialogs.showDialog1(context, 'No se pudo validar.');
     }
   }
 }
