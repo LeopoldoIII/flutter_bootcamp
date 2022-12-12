@@ -93,8 +93,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   formLogin() async {
     if (formKey.currentState!.validate()) {
-      bool respuesta = await loginProvider.loginUser(formData);
-      if (respuesta) {
+      var user = await loginProvider.loginUser(formData);
+      if (user != null) {
         AppDialogs.showDialog2(context, 'Usuario Autenticado!', [
           TextButton(
               onPressed: () {
