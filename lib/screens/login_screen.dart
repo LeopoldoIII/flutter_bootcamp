@@ -15,10 +15,13 @@ class _LoginScreenState extends State<LoginScreen> {
   var formKey = GlobalKey<FormState>();
   Map<String, String> formData = {'email': '', 'password': ''};
   LoginProvider loginProvider = LoginProvider();
+  UserProvider userProvider = UserProvider();
 
   @override
   Widget build(BuildContext context) {
     loginProvider = Provider.of<LoginProvider>(context);
+    userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -95,6 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (formKey.currentState!.validate()) {
       var user = await loginProvider.loginUser(formData);
       if (user != null) {
+        userProvider.setUser(user);
         AppDialogs.showDialog2(context, 'Usuario Autenticado!', [
           TextButton(
               onPressed: () {
