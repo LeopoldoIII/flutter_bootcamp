@@ -16,11 +16,15 @@ class AppDrawer extends StatelessWidget {
           )),
           ListTile(
             title: Text('Home'),
-            onTap: () {},
+            onTap: () {
+              Navigator.restorablePushReplacementNamed(context, 'home');
+            },
           ),
           ListTile(
             title: Text('Mapa'),
-            onTap: () {},
+            onTap: () {
+              Navigator.restorablePushReplacementNamed(context, 'map');
+            },
           ),
           ListTile(
             title: Text('Temporal 1'),
@@ -31,8 +35,10 @@ class AppDrawer extends StatelessWidget {
             onTap: () {},
           ),
           ListTile(
-            title: Text('Temporal 3'),
-            onTap: () {},
+            title: Text('About'),
+            onTap: () {
+              Navigator.restorablePushReplacementNamed(context, 'about');
+            },
           )
         ],
       ),
