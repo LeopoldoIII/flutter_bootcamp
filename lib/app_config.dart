@@ -9,6 +9,7 @@ class AppConfig {
       'register': ((context) => const RegisterScreen()),
       'home': ((context) => const HomeScreen()),
       'map': ((context) => const MapScreen()),
+      'profile': ((context) => const ProfileScreen()),
       'about': ((context) => const AboutScreen()),
     };
   }
