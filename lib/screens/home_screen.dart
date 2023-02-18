@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String name = userProvider.user.name!;
 
     return Scaffold(
-        appBar: getAppBar('Home', userProvider.user),
+        appBar: getAppBar(context,'Home', userProvider.user),
         drawer: const AppDrawer(),
         body: Center(
           child: Text('Bienvenido $name a la aplicacion...'),
