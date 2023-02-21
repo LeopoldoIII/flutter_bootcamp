@@ -5,9 +5,7 @@ import 'package:http/http.dart' as http;
 import '../models/user.dart';
 
 class RegisterProvider extends ChangeNotifier {
-  String endpoint = 'https://identitytoolkit.googleapis.com/v1/';
   
-
   RegisterProvider() {
     print("IniciandoRegisterProvider");
   }

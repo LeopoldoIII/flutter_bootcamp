@@ -26,23 +26,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     'image': ''
   };
 
-  RegisterProvider registerProvider = RegisterProvider();
   TextEditingController nameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   XFile? image;
-  String imageBase64 = "";
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserProvider>(context);
-    registerProvider = Provider.of<RegisterProvider>(context);
-
     nameController.text = userProvider.user.name!;
     lastNameController.text = userProvider.user.lastname!;
+    
     formData['name'] = nameController.text;
     formData['lastname'] = lastNameController.text;
     formData['localId'] = userProvider.user.localId!;
+    formData['image'] = userProvider.user.image!;
 
     return Scaffold(
       appBar: getAppBar(context, 'Profile', userProvider.user),
@@ -66,15 +65,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     }
                     setState(() {});
                   },
-                  child: image == null
+                  child: userProvider.user.image! == ""
                       ? const Image(image: AssetImage('assets/profile.png'))
                       : ClipRRect(
                           borderRadius: BorderRadius.circular(300),
-                          child: Image.file(
-                            File(image!.path),
+                          child: Image.memory(
+                            base64Decode(userProvider.user.image!),
                             fit: BoxFit.cover,
-                            height: 300,
-                            width: 300,
+                            height: 400,
+                            width: 400,
                           ))),
               AppFormFiled(
                 'name',
@@ -102,7 +101,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   return null;
                 },
               ),
-              ElevatedButton(onPressed: () {}, child: const Text('Actualizar'))
+              const SizedBox(
+                height: 20,
+              ),
+              (loading == false)
+                  ? ElevatedButton(
+                      onPressed: formUpdate, child: const Text('Actualizar'))
+                  : const Center(child: CircularProgressIndicator())
             ],
           ),
         ),
@@ -112,7 +117,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   formUpdate() async {
     if (formKey.currentState!.validate()) {
-      bool respuesta = await registerProvider.registerUser(formData);
+      loading = true;
+      setState(() {});
+      bool respuesta = await userProvider.updateUser(formData);
+      loading = false;
+      setState(() {});
       if (respuesta) {
         AppDialogs.showDialog1(context, 'Datos Actualizados.');
       } else {
